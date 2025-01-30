@@ -1,12 +1,17 @@
-files = ["1.txt", "2.txt", "3.txt"]
-file_lines = []
+def writeInFail(): 
+    files = ["1.txt", "2.txt", "3.txt"]
+    file_lines = []
+    for file_name in files:
+        with open(file_name, "r", encoding="utf-8") as file:
+            lines = file.readlines()
+            file_lines.append((file_name, len(lines), ''.join(lines)))
 
-for file_name in files:
-    with open(file_name, "r", encoding="utf-8") as file:
-        lines = file.readlines()
-        file_lines.append((file_name, len(lines), ''.join(lines)))
+    file_lines.sort(key=lambda x: x[1], reverse=True)
 
-file_lines.sort(key=lambda x: x[1], reverse=True)
+    with open("output.txt", "w", encoding="utf-8") as output_file:
+        for file_name, line_count, content in file_lines:
+            output_file.write(f"{file_name} \n{line_count} \n{content}\n")
 
-for file_name, line_count, content in file_lines:
-    print(f"{file_name} \n{line_count} \n{content}\n")
+    return file_lines
+
+file_lines = writeInFail()
